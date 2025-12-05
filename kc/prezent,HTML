@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXTREME Świąteczny Prezent dla Emilki ❤️</title>
+
+<style>
+:root{
+  --bg-dark:#300006;
+  --bg-red:#a7000c;
+  --text:#fff3f3;
+  --gold:#ffd700;
+  --ribbon:#ff5c7a;
+  --btn:#ff184a;
+  --card-bg:rgba(255,255,255,0.07);
+}
+
+/* Reset */
+body,html{margin:0;padding:0;font-family:Arial,sans-serif;background:linear-gradient(180deg,var(--bg-dark),var(--bg-red));overflow:hidden;color:var(--text);}
+h1,h2,p{margin:0;padding:0;}
+button{cursor:pointer;font-family:inherit;}
+
+/* Intro */
+#intro{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:999;padding:20px;animation:fadeIn 1s ease;}
+#intro button{margin-top:12px;background:linear-gradient(90deg,var(--btn),#ff2e63);border:none;color:white;padding:12px 24px;border-radius:12px;font-weight:700;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* Gift box */
+#gift-area{margin-top:100px;text-align:center;position:relative;z-index:5;}
+.gift{position:relative;width:220px;height:200px;margin:auto;cursor:pointer;perspective:800px;}
+.gift-box{width:220px;height:200px;background:linear-gradient(180deg,#ff3b5f,#d12237);border-radius:14px;position:relative;box-shadow:0 10px 40px rgba(0,0,0,0.5);transform-style:preserve-3d;transition:transform 0.7s ease;}
+.gift-lid{width:240px;height:60px;background:linear-gradient(180deg,#ff466a,#e00032);position:absolute;top:-40px;left:-10px;border-radius:14px;transition:transform 0.7s ease,top 0.7s ease;}
+.ribbon-v{width:30px;height:200px;background:var(--gold);position:absolute;left:95px;top:0;transition:all 0.4s ease;}
+.ribbon-h{width:220px;height:26px;background:var(--gold);position:absolute;top:75px;transition:all 0.4s ease;}
+.hint{margin-top:16px;font-size:18px;opacity:0.9;}
+
+/* Animations */
+.lid-open{top:-140px !important;transform:rotateX(-25deg);}
+.ribbon-break{transform:scaleY(0) translateY(40px);opacity:0;}
+.light{position:absolute;width:300px;height:300px;border-radius:50%;top:-50px;left:-40px;background:radial-gradient(circle,rgba(255,255,200,0.9),rgba(255,255,200,0.05),transparent);opacity:0;filter:blur(12px);animation:glow 1s forwards;}
+@keyframes glow{to{opacity:1;transform:scale(1.4);}}
+.heart{position:fixed;font-size:26px;animation:fall 4s linear forwards;}
+@keyframes fall{to{transform:translateY(100vh) rotate(360deg);opacity:0;}}
+.snow{position:fixed;color:white;font-size:14px;animation:snow 8s linear forwards;}
+@keyframes snow{to{transform:translateY(100vh);opacity:0;}}
+.star{position:fixed;font-size:18px;color:var(--gold);animation:tw 2s infinite alternate;opacity:0.85;}
+@keyframes tw{from{opacity:.35;transform:scale(1)}to{opacity:1;transform:scale(1.2)}}
+.confetti{position:fixed;width:8px;height:8px;background:var(--gold);opacity:0.9;animation:confetti-fall 3s linear forwards;}
+@keyframes confetti-fall{100%{transform:translateY(100vh) rotate(360deg);opacity:0;}}
+.firework{position:fixed;width:4px;height:4px;background:var(--gold);border-radius:50%;opacity:0.9;}
+
+/* Message box */
+#message-box{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:1000;}
+.msg{background:var(--card-bg);backdrop-filter:blur(8px);padding:28px;border-radius:14px;max-width:450px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.6);opacity:0;transition:opacity 1s ease;}
+.msg.show{opacity:1;}
+#typed span{color:red;animation:heartbeat 0.8s infinite alternate;}
+@keyframes heartbeat{0%{transform:scale(1)}100%{transform:scale(1.3);}}
+/* Renifer/choinka */
+#renifer,#choinka{position:fixed;width:80px;height:80px;bottom:0;opacity:0;transition:all 1s ease;}
+#renifer{left:20px;background:url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center/contain;}
+#choinka{right:20px;background:url('https://cdn-icons-png.flaticon.com/512/616/616432.png') no-repeat center/contain;}
+/* Lampki */
+.lightbulb{position:fixed;width:12px;height:12px;border-radius:50%;background:yellow;animation:blink 1s infinite alternate;}
+@keyframes blink{from{opacity:.3;}to{opacity:1;}}
+</style>
+
+<body>
+
+<div id="intro">
+  <h1>🎄 Emilko, prezent od Jakuba ❤️</h1>
+  <p>Kliknij „Start”, potem kliknij pudełko 🎁</p>
+  <button onclick="startShow()">Start ✨</button>
+</div>
+
+<div id="gift-area">
+  <div class="gift" onclick="openGift()">
+    <div class="gift-lid" id="lid"></div>
+    <div class="gift-box" id="box">
+      <div class="ribbon-v" id="ribbonV"></div>
+      <div class="ribbon-h" id="ribbonH"></div>
+    </div>
+  </div>
+  <div class="hint">Kliknij pudełko, aby rozpakować prezent 🎁</div>
+</div>
+
+<div id="message-box">
+  <div class="msg" id="msg">
+    <h2>💖 Emilko 💖</h2>
+    <p id="typed"></p>
+    <button onclick="closeMessage()">Zamknij</button>
+  </div>
+</div>
+
+<div id="renifer"></div>
+<div id="choinka"></div>
+
+<audio id="music" loop src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a598d42b0.mp3?filename=christmas-magic-ambient-11090.mp3"></audio>
+<audio id="bells" src="https://cdn.pixabay.com/audio/2021/12/07/audio_9f36805b30.mp3"></audio>
+
+<script>
+let opened=false;
+const intro=document.getElementById('intro');
+const lid=document.getElementById('lid');
+const rV=document.getElementById('ribbonV');
+const rH=document.getElementById('ribbonH');
+const msg=document.getElementById('msg');
+const typed=document.getElementById('typed');
+const music=document.getElementById('music');
+const bells=document.getElementById('bells');
+const renifer=document.getElementById('renifer');
+const choinka=document.getElementById('choinka');
+
+// lampki w tle
+for(let i=0;i<15;i++){
+  const l=document.createElement('div');l.className='lightbulb';
+  l.style.top=Math.random()*100+'vh';
+  l.style.left=Math.random()*100+'vw';
+  l.style.backgroundColor=`hsl(${Math.random()*360},100%,50%)`;
+  document.body.appendChild(l);
+}
+
+document.addEventListener('mousemove',e=>{
+  const x=e.clientX; const y=e.clientY;
+  const gold=document.querySelectorAll('.firework');
+  gold.forEach(f=>{f.style.left=x+'px';f.style.top=y+'px';});
+});
+
+function startShow(){intro.style.display='none';music.play();}
+
+function openGift(){
+if(opened) return; opened=true;
+try{bells.currentTime=0;bells.play();}catch(e){}
+music.volume=0.4;
+
+rV.classList.add('ribbon-break');
+rH.classList.add('ribbon-break');
+lid.style.top='-60px';
+setTimeout(()=>lid.classList.add('lid-open'),300);
+
+setTimeout(()=>{
+  const light=document.createElement('div');light.className='light';document.querySelector('.gift').appendChild(light);
+  spawnHearts(300);spawnSnow(100);spawnStars(80);spawnConfetti(100);spawnFireworks(60);
+  renifer.style.opacity=1; renifer.style.bottom='50px';
+  choinka.style.opacity=1; choinka.style.bottom='50px';
+},600);
+
+setTimeout(showMessage,1200);
+}
+
+function spawnHearts(n){for(let i=0;i<n;i++){const h=document.createElement('div');h.className='heart';h.textContent='💖';h.style.left=Math.random()*100+'vw';h.style.animationDuration=(3+Math.random()*2)+'s';document.body.appendChild(h);setTimeout(()=>h.remove(),6000);}}
+function spawnSnow(n){for(let i=0;i<n;i++){const s=document.createElement('div');s.className='snow';s.textContent='❆';s.style.left=Math.random()*100+'vw';s.style.fontSize=(12+Math.random()*10)+'px';s.style.animationDuration=(5+Math.random()*4)+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),9000);}}
+function spawnStars(n){for(let i=0;i<n;i++){const s=document.createElement('div');s.className='star';s.textContent='✦';s.style.left=Math.random()*100+'vw';s.style.top=Math.random()*80+'vh';s.style.fontSize=(12+Math.random()*18)+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),3000);}}
+function spawnConfetti(n){for(let i=0;i<n;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'vw';document.body.appendChild(c);setTimeout(()=>c.remove(),4000);}}
+function spawnFireworks(n){for(let i=0;i<n;i++){const f=document.createElement('div');f.className='firework';f.style.left=Math.random()*100+'vw';f.style.top=Math.random()*80+'vh';document.body.appendChild(f);setTimeout(()=>f.remove(),2500);}}
+
+function showMessage(){
+  document.getElementById('message-box').style.display='flex';
+  msg.classList.add('show');
+  const text="Kocham Cię najmocniej, Emilko! 💖🎄 Jesteś moim najpiękniejszym prezentem, jaki mógł przynieść mi ten rok. 😍";
+  let i=0;
+  function type(){if(i<=text.length){typed.innerHTML=text.substring(0,i)+'<span>💖</span>';i++;setTimeout(type,25);}}
+  type();
+}
+
+function closeMessage(){document.getElementById('message-box').style.display='none';msg.classList.remove('show');}
+</script>
+
+</body>
+</html>
